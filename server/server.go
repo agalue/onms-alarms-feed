@@ -21,12 +21,29 @@ func (srv *Server) HandleAlarmSnapshot(context.Context, *oia.Empty) (*oia.Alarms
 
 // HandleNewOrUpdatedAlarm invoked when an alarm is created or updated.
 func (srv *Server) HandleNewOrUpdatedAlarm(empty *oia.Empty, stream oia.AlarmLifecycleListener_HandleNewOrUpdatedAlarmServer) error {
-	id := uint64(0)
+	id := uint64(100)
 	for {
 		uei := "uei.opennms.org/grpc/test"
+		node := &oia.Node{
+			Id:            66,
+			ForeignSource: "Test",
+			ForeignId:     "srv01",
+			Label:         "srv01.example.com",
+			IpInterfaces: []*oia.IPInterface{
+				{
+					IpAddress: "10.0.0.1",
+				},
+			},
+		}
 		event := &oia.DatabaseEvent{
 			Id:  id,
 			Uei: uei,
+			Parameters: []*oia.EventParameter{
+				{
+					Name:  "owner",
+					Value: "agalue",
+				},
+			},
 		}
 		id++
 		alarm := &oia.Alarm{
@@ -34,9 +51,12 @@ func (srv *Server) HandleNewOrUpdatedAlarm(empty *oia.Empty, stream oia.AlarmLif
 			ReductionKey:   uei,
 			FirstEventTime: uint64(time.Now().Unix()),
 			LastEventTime:  uint64(time.Now().Unix()),
+			Node:           node,
 			LastEvent:      event,
 			Type:           oia.AlarmType_PROBLEM_WITHOUT_CLEAR,
 			Severity:       oia.Severity_MINOR,
+			LogMessage:     "Something wrong happened",
+			Description:    "Make sure everything is OK",
 		}
 		id++
 		if err := stream.Send(alarm); err == nil {
