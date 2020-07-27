@@ -1,8 +1,10 @@
 import React from 'react';
-
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Card from 'react-bootstrap/Card';
 import * as moment from 'moment';
 
-import './App.css';
 import { Empty } from './protobuf/oia/model_pb';
 import { AlarmLifecycleListenerClient } from "./protobuf/oia/alarms_grpc_web_pb";
 
@@ -14,7 +16,9 @@ function App() {
   const getAlarm = React.useCallback(() => {
     const stream = client.handleNewOrUpdatedAlarm(new Empty(), {});
     stream.on('data', alarm => {
-      setAlarms(prevAlarms => ([alarm.toObject(), ...prevAlarms]));
+      const a = alarm.toObject();
+      console.log(a);
+      setAlarms(prevAlarms => ([a, ...prevAlarms]));
     });
     stream.on('error', (err) => {
       console.log(`Unexpected stream error: code = ${err.code}, message = ${err.message}`);
@@ -25,18 +29,30 @@ function App() {
     getAlarm();
   }, [getAlarm]);
 
-  const alarmList = alarms.map(a => (
-    <li key={a.id}>
-      <p>ID {a.id}, UEI = {a.lastEvent.uei}, Severity = {a.severity}</p>
-      <p>received {moment(a.lastEventTime * 1000).fromNow()}</p>
-    </li>
-  ));
+  const alarmList = alarms.map(a => {
+    const m = moment(a.lastEventTime * 1000);
+    return (<ListGroup.Item key={a.id}>
+      <Card>
+        <Card.Header>At {m.format()}, received {m.fromNow()}</Card.Header>
+        <Card.Body>
+          <Card.Title>{a.lastEvent.uei} (ID: {a.id})</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">from node {a.node.label}</Card.Subtitle>
+          <Card.Text>
+            {a.logMessage}
+          </Card.Text>
+          <Card.Link href="#">Details</Card.Link>
+        </Card.Body>
+      </Card>
+    </ListGroup.Item>)
+  });
 
   return (
-    <div className="App">
-      <h1>OpenNMS Alarm Feeder</h1>
-      <ul>{ alarmList }</ul>
-    </div>
+    <Container>
+      <Jumbotron>
+        <h1>OpenNMS Alarm Feeder</h1>
+      </Jumbotron>
+      <ListGroup variant="flush">{ alarmList }</ListGroup>
+    </Container>
   );
 }
 
