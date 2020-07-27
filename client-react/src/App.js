@@ -23,20 +23,52 @@ const severityColors = [
   '#f5cdcd', // 7: Critical
 ];
 
+const handleError = err => {
+  console.log(`Unexpected stream error: code = ${err.code}, message = ${err.message}`);
+}
+
 function App() {
   const [alarms, setAlarms] = React.useState([]);
   const [showDetail, setShowDetail] = React.useState(false)
   const [selectedAlarm, setSelectedAlarm] = React.useState({})
 
-  const getAlarm = React.useCallback(() => {
-    const stream = client.handleNewOrUpdatedAlarm(new Empty(), {});
-    stream.on('data', alarm => {
-      const a = alarm.toObject();
-      console.log(a);
-      setAlarms(prevAlarms => ([a, ...prevAlarms]));
+  const loadAlarms = React.useCallback(() => {
+    client.handleAlarmSnapshot(new Empty(), {}, (err, proto) => {
+      if (err) {
+        handleError(err);
+      } else {
+        const alarms = proto.getAlarmsList()
+          .map(a => a.toObject())
+          .sort((a, b) => a.lastEventTime - b.lastEventTime);
+        console.log(`Loaded ${alarms.length} alarms.`);
+        setAlarms(alarms);
+      }
     });
-    stream.on('error', (err) => {
-      console.log(`Unexpected stream error: code = ${err.code}, message = ${err.message}`);
+  }, []);
+
+  const handleNewOrUpdatedAlarm = React.useCallback(() => {
+    const newOrUpdateStream = client.handleNewOrUpdatedAlarm(new Empty(), {});
+    newOrUpdateStream.on('error', handleError);
+    newOrUpdateStream.on('data', protoAlarm => {
+      const alarm = protoAlarm.toObject();
+      setAlarms(prevAlarms => {
+        if (prevAlarms.find(a => a.id === alarm.id)) {
+          console.log(`Updating alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+          return prevAlarms.map(a => a.id === alarm.id ? alarm : a);
+        }
+        console.log(`Adding alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+        return [alarm, ...prevAlarms];
+      });
+    });
+  }, []);
+
+  const handleDeletedAlarm = React.useCallback(() => {
+    const deletedStream = client.handleDeletedAlarm(new Empty(), {});
+    deletedStream.on('error', handleError);
+    deletedStream.on('data', protoAlarm => {
+      const alarm = protoAlarm.toObject();
+      console.log(`Deleting alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+      setAlarms(prevAlarms => prevAlarms.filter(a => a.id !== alarm.id));
     });
   }, []);
 
@@ -50,8 +82,11 @@ function App() {
   };
 
   React.useEffect(() => {
-    getAlarm();
-  }, [getAlarm]);
+    console.log('Initialize handlers.');
+    loadAlarms();
+    handleNewOrUpdatedAlarm();
+    handleDeletedAlarm();
+  }, [loadAlarms, handleNewOrUpdatedAlarm, handleDeletedAlarm]);
 
   const alarmList = alarms.map(a => {
     const m = moment(a.lastEventTime * 1000);
