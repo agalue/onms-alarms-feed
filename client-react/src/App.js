@@ -52,12 +52,13 @@ function App() {
     newOrUpdateStream.on('data', protoAlarm => {
       const alarm = protoAlarm.toObject();
       setAlarms(prevAlarms => {
-        if (prevAlarms.find(a => a.id === alarm.id)) {
-          console.log(`Updating alarm ${alarm.reductionKey} with ID ${alarm.id}`);
-          return prevAlarms.map(a => a.id === alarm.id ? alarm : a);
+        const idx = prevAlarms.findIndex(a => a.id === alarm.id)
+        if (idx < 0) {
+          console.log(`Adding alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+          return [alarm, ...prevAlarms];
         }
-        console.log(`Adding alarm ${alarm.reductionKey} with ID ${alarm.id}`);
-        return [alarm, ...prevAlarms];
+        console.log(`Updating alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+        return prevAlarms.map(a => a.id === alarm.id ? alarm : a);
       });
     });
   }, []);
@@ -96,7 +97,7 @@ function App() {
       <Card>
         <Card.Header style={style}>At {m.format()}, received {m.fromNow()}</Card.Header>
         <Card.Body>
-          <Card.Title>{a.lastEvent.uei} (ID: {a.id})</Card.Title>
+          <Card.Title>{a.lastEvent.uei} (ID: {a.id}, Severity: {a.severity})</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">from node {a.node.label}</Card.Subtitle>
           <Card.Text>
             {a.logMessage}
@@ -115,7 +116,7 @@ function App() {
       </Navbar>
       <Modal show={showDetail} onHide={handleClose}>
         <Modal.Header closeButton style={{backgroundColor: severityColors[selectedAlarm.severity]}}>
-          <Modal.Title>Alarm Detail (ID={selectedAlarm.id})</Modal.Title>
+          <Modal.Title>Alarm Detail (ID={selectedAlarm.id}, Severity={selectedAlarm.severity})</Modal.Title>
         </Modal.Header>
         <Modal.Body>{selectedAlarm.description}</Modal.Body>
         <Modal.Footer>

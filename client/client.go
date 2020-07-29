@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 	"sync"
 
@@ -10,16 +11,21 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("127.0.0.1:8080", grpc.WithInsecure())
+	bootstrap := flag.String("bootstrap", "127.0.0.1:8080", "gRPC server connection string")
+	flag.Parse()
+
+	conn, err := grpc.Dial(*bootstrap, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Error while connecting: %v", err)
 	}
 	defer conn.Close()
 	client := oia.NewAlarmLifecycleListenerClient(conn)
 
+	// Retrieve list of current alarms
+
 	list, err := client.HandleAlarmSnapshot(context.Background(), &oia.Empty{})
 	if err != nil {
-		log.Fatalf("Error while creating handler: %v", err)
+		log.Fatalf("Error while creating HandleAlarmSnapshot: %v", err)
 	}
 	for _, alarm := range list.Alarms {
 		log.Printf("Loaded alarm %s with ID %d and severity %s", alarm.ReductionKey, alarm.Id, alarm.Severity.String())
@@ -28,11 +34,13 @@ func main() {
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
 
+	// Start handler for new or updated alarms
+
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
 		handler, err := client.HandleNewOrUpdatedAlarm(context.Background(), &oia.Empty{})
 		if err != nil {
-			log.Printf("Error while creating handler: %v", err)
+			log.Printf("Error while creating HandleNewOrUpdatedAlarm: %v", err)
 			return
 		}
 		for {
@@ -45,11 +53,13 @@ func main() {
 		}
 	}(wg)
 
+	// Start handler for deleted alarms
+
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
 		handler, err := client.HandleDeletedAlarm(context.Background(), &oia.Empty{})
 		if err != nil {
-			log.Printf("Error while creating handler: %v", err)
+			log.Printf("Error while creating HandleDeletedAlarm: %v", err)
 			return
 		}
 		for {

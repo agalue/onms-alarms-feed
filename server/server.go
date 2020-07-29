@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"math/rand"
@@ -159,10 +160,13 @@ func getMockNode() *oia.Node {
 ////// Main Method //////
 
 func main() {
+	port := flag.Int("port", 8080, "gRPC server port")
+	flag.Parse()
+
 	rand.Seed(time.Now().Unix())
 	initMockNodes("Servers", uint64(10))
 
-	lis, err := net.Listen("tcp", "0.0.0.0:8080")
+	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", *port))
 
 	if err != nil {
 		log.Fatalf("Error while listening : %v", err)
