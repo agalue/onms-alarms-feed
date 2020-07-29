@@ -55,9 +55,11 @@ function App() {
         const idx = prevAlarms.findIndex(a => a.id === alarm.id)
         if (idx < 0) {
           console.log(`Adding alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+          console.log(alarm);
           return [alarm, ...prevAlarms];
         }
         console.log(`Updating alarm ${alarm.reductionKey} with ID ${alarm.id}`);
+        console.log(alarm);
         return prevAlarms.map(a => a.id === alarm.id ? alarm : a);
       });
     });
@@ -90,15 +92,16 @@ function App() {
   }, [loadAlarms, handleNewOrUpdatedAlarm, handleDeletedAlarm]);
 
   const alarmList = alarms.map(a => {
-    const m = moment(a.lastEventTime * 1000);
+    const m = moment(a.lastEventTime);
     const style = { backgroundColor: severityColors[a.severity] };
+    const subTitle = a.node ? <Card.Subtitle className="mb-2 text-muted">from node {a.node.label}</Card.Subtitle> : null;
     return (
     <ListGroup.Item key={a.id}>
       <Card>
         <Card.Header style={style}>At {m.format()}, received {m.fromNow()}</Card.Header>
         <Card.Body>
           <Card.Title>{a.lastEvent.uei} (ID: {a.id}, Severity: {a.severity})</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">from node {a.node.label}</Card.Subtitle>
+          {subTitle}
           <Card.Text>
             {a.logMessage}
           </Card.Text>
