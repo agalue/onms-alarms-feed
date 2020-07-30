@@ -27,11 +27,6 @@ const severityColors = [
   '#f5cdcd', // 7: Critical
 ];
 
-const handleError = err => {
-  console.log(`Unexpected stream error: code = ${err.code}, message = ${err.message}`);
-  console.error(err)
-}
-
 function App() {
   const [alarms, setAlarms] = React.useState([]);
   const [showAlarmDetail, setShowAlarmDetail] = React.useState(false)
@@ -40,7 +35,7 @@ function App() {
   const loadAlarms = React.useCallback(() => {
     alarmsClient.handleAlarmSnapshot(new Empty(), {}, (err, proto) => {
       if (err) {
-        handleError(err);
+        console.log(`handleAlarmSnapshot: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
       } else {
         const alarms = proto.getAlarmsList()
           .map(a => a.toObject())
@@ -53,7 +48,9 @@ function App() {
 
   const handleNewOrUpdatedAlarm = React.useCallback(() => {
     const newOrUpdateStream = alarmsClient.handleNewOrUpdatedAlarm(new Empty(), {});
-    newOrUpdateStream.on('error', handleError);
+    newOrUpdateStream.on('error', err => {
+      console.log(`handleNewOrUpdatedAlarm: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
+    });
     newOrUpdateStream.on('data', protoAlarm => {
       const alarm = protoAlarm.toObject();
       setAlarms(prevAlarms => {
@@ -72,7 +69,9 @@ function App() {
 
   const handleDeletedAlarm = React.useCallback(() => {
     const deletedStream = alarmsClient.handleDeletedAlarm(new Empty(), {});
-    deletedStream.on('error', handleError);
+    deletedStream.on('error', err => {
+      console.log(`handleDeletedAlarm: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
+    });
     deletedStream.on('data', protoAlarm => {
       const alarm = protoAlarm.toObject();
       console.log(`Deleting alarm ${alarm.reductionKey} with ID ${alarm.id}`);

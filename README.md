@@ -104,7 +104,7 @@ To start the gRPC client
 
 ```
 cd client
-go run client.go -port 8080
+go run client.go -bootstrap 127.0.0.1:8080
 ```
 
 > Note that the client can connect to the dockerized environment on port 8991.
