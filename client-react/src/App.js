@@ -25,6 +25,7 @@ const severityColors = [
 
 const handleError = err => {
   console.log(`Unexpected stream error: code = ${err.code}, message = ${err.message}`);
+  console.error(err)
 }
 
 function App() {
