@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+
+  database-oia:
+    container_name: database-oia
+    hostname: database-oia
+    image: postgres:12
+    environment:
+    - TZ=America/New_York
+    - POSTGRES_HOST=database-oia
+    - POSTGRES_PORT=5432
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  opennms-oia:
+    container_name: opennms-oia
+    hostname: opennms-oia
+    image: opennms/horizon:bleeding
+    depends_on:
+    - database-oia
+    command: [ -s ]
+    ports:
+    - 8981:8980 # WebUI
+    volumes:
+    - ./opennms-overlay:/opt/opennms-overlay
+    environment:
+    - TZ=America/New_York
+    - POSTGRES_HOST=database-oia
+    - POSTGRES_PORT=5432
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - JAVA_OPTS=-Xms4096m -Xmx4096m -XX:+UseG1GC -XX:+UseStringDeduplication
+    healthcheck:
+      test: curl -f -I http://localhost:8980/opennms/login.jsp
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
+  envoy-oia:
+    container_name: envoy-oia
+    hostname: envoy-oia
+    image: envoyproxy/envoy:v1.14-latest
+    depends_on:
+    - opennms-oia
+    ports:
+    - 9901:9901 # Admin
+    - 8000:8000 # grpc-web OIA
+    volumes:
+    - ./envoy.docker.yaml:/etc/envoy/envoy.yaml
+
+  ui-oia:
+    container_name: ui-oia
+    hostname: ui-oia
+    build: client-react
+    stdin_open: true
+    depends_on:
+    - opennms-oia
+    - envoy-oia
+    ports:
+    - 3000:3000
+
