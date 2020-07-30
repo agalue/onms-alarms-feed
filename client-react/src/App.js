@@ -28,27 +28,9 @@ const severityColors = [
 ];
 
 function App() {
-  const [loaded, setLoaded] = React.useState(false);
   const [alarms, setAlarms] = React.useState([]);
   const [showAlarmDetail, setShowAlarmDetail] = React.useState(false)
   const [selectedAlarm, setSelectedAlarm] = React.useState({})
-
-  const loadAlarms = React.useCallback(() => {
-    const alarmSnapshot = alarmsClient.handleAlarmSnapshot(new Empty(), {});
-    alarmSnapshot.on('error', err => {
-      console.log(`handleAlarmSnapshot: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
-    });
-    alarmSnapshot.on('data', proto => {
-      if (!loaded) {
-        const alarms = proto.getAlarmsList()
-          .map(a => a.toObject())
-          .sort((a, b) => a.lastEventTime - b.lastEventTime);
-        console.log(`Loaded ${alarms.length} alarms.`);
-        setAlarms(alarms);
-        setLoaded(true);
-      }
-    });
-  }, []);
 
   const handleNewOrUpdatedAlarm = React.useCallback(() => {
     const newOrUpdateStream = alarmsClient.handleNewOrUpdatedAlarm(new Empty(), {});
@@ -56,7 +38,6 @@ function App() {
       console.log(`handleNewOrUpdatedAlarm: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
     });
     newOrUpdateStream.on('data', proto => {
-      if (!loaded) { return; }
       const alarm = proto.toObject();
       setAlarms(prevAlarms => {
         const idx = prevAlarms.findIndex(a => a.id === alarm.id)
@@ -78,7 +59,6 @@ function App() {
       console.log(`handleDeletedAlarm: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
     });
     deletedStream.on('data', proto => {
-      if (!loaded) { return; }
       const alarm = proto.toObject();
       console.log(`Deleting alarm ${alarm.reductionKey} with ID ${alarm.id}`);
       setAlarms(prevAlarms => prevAlarms.filter(a => a.id !== alarm.id));
@@ -99,15 +79,15 @@ function App() {
     e.setUei("uei.opennms.org/grpc/reactTest");
     e.setSource("ReactJS");
     e.setSeverity(7);
-    eventsClient.sendAsync(e);
+    console.log(`Sending event ${JSON.stringify(e.toObject())}`);
+    eventsClient.sendAsync(e, {}, () => {});
   }, []);
 
   React.useEffect(() => {
     console.log('Initialize handlers.');
-    loadAlarms();
     handleNewOrUpdatedAlarm();
     handleDeletedAlarm();
-  }, [loadAlarms, handleNewOrUpdatedAlarm, handleDeletedAlarm]);
+  }, [handleNewOrUpdatedAlarm, handleDeletedAlarm]);
 
   const alarmList = alarms.map(a => {
     const m = moment(a.lastEventTime);
