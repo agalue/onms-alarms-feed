@@ -32,21 +32,6 @@ func main() {
 	defer conn.Close()
 	client := oia.NewAlarmLifecycleListenerClient(conn)
 
-	// Retrieve list of current alarms
-
-	handler, err := client.HandleAlarmSnapshot(context.Background(), &oia.Empty{})
-	if err != nil {
-		log.Fatalf("Error while creating HandleAlarmSnapshot: %v", err)
-	}
-	if alarmList, err := handler.Recv(); err == nil {
-		for _, alarm := range alarmList.Alarms {
-			displayAlarm("From HandleAlarmSnapshot", alarm)
-		}
-	} else {
-		log.Printf("Error while getting alarms snapshot: %v", err)
-		return
-	}
-
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
 
