@@ -81,7 +81,7 @@ proto.oia.AlarmLifecycleListenerPromiseClient =
  */
 const methodDescriptor_AlarmLifecycleListener_HandleAlarmSnapshot = new grpc.web.MethodDescriptor(
   '/oia.AlarmLifecycleListener/HandleAlarmSnapshot',
-  grpc.web.MethodType.UNARY,
+  grpc.web.MethodType.SERVER_STREAMING,
   model_pb.Empty,
   proto.oia.AlarmsList,
   /**
@@ -115,37 +115,32 @@ const methodInfo_AlarmLifecycleListener_HandleAlarmSnapshot = new grpc.web.Abstr
 
 
 /**
- * @param {!proto.oia.Empty} request The
- *     request proto
+ * @param {!proto.oia.Empty} request The request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.oia.AlarmsList)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.oia.AlarmsList>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.oia.AlarmsList>}
  *     The XHR Node Readable Stream
  */
 proto.oia.AlarmLifecycleListenerClient.prototype.handleAlarmSnapshot =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
       '/oia.AlarmLifecycleListener/HandleAlarmSnapshot',
       request,
       metadata || {},
-      methodDescriptor_AlarmLifecycleListener_HandleAlarmSnapshot,
-      callback);
+      methodDescriptor_AlarmLifecycleListener_HandleAlarmSnapshot);
 };
 
 
 /**
- * @param {!proto.oia.Empty} request The
- *     request proto
+ * @param {!proto.oia.Empty} request The request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.oia.AlarmsList>}
- *     A native promise that resolves to the response
+ * @return {!grpc.web.ClientReadableStream<!proto.oia.AlarmsList>}
+ *     The XHR Node Readable Stream
  */
 proto.oia.AlarmLifecycleListenerPromiseClient.prototype.handleAlarmSnapshot =
     function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
+  return this.client_.serverStreaming(this.hostname_ +
       '/oia.AlarmLifecycleListener/HandleAlarmSnapshot',
       request,
       metadata || {},

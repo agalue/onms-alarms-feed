@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -24,11 +23,14 @@ var (
 // Server represents the OIA gRPC Implementation for the AlarmLifecycleListener
 type Server struct{}
 
-// HandleAlarmSnapshot periodically invoked with the complete list of alarms as stored in the database.
-func (srv *Server) HandleAlarmSnapshot(context.Context, *oia.Empty) (*oia.AlarmsList, error) {
-	return &oia.AlarmsList{
-		Alarms: mockAlarms,
-	}, nil
+// HandleAlarmSnapshot periodically send the state of the alarms in the database.
+func (srv *Server) HandleAlarmSnapshot(empty *oia.Empty, stream oia.AlarmLifecycleListener_HandleAlarmSnapshotServer) error {
+	for {
+		stream.Send(&oia.AlarmsList{
+			Alarms: mockAlarms,
+		})
+		time.Sleep(30 * time.Second)
+	}
 }
 
 // HandleNewOrUpdatedAlarm invoked when an alarm is created or updated.

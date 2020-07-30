@@ -100,10 +100,17 @@ cd server
 go run server.go -port 8080
 ```
 
-To start the gRPC client
+To start the gRPC client for alarms:
 
 ```
-cd client
+cd client-go/alarms
+go run client.go -bootstrap 127.0.0.1:8080
+```
+
+To start the gRPC client for events:
+
+```
+cd client-go/events
 go run client.go -bootstrap 127.0.0.1:8080
 ```
 

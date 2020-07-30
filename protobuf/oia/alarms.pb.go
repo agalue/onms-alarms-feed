@@ -143,22 +143,22 @@ var file_alarms_proto_rawDesc = []byte{
 	0x6d, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69,
 	0x64, 0x12, 0x23, 0x0a, 0x0d, 0x72, 0x65, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6b,
 	0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x72, 0x65, 0x64, 0x75, 0x63, 0x74,
-	0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x32, 0xbd, 0x01, 0x0a, 0x16, 0x41, 0x6c, 0x61, 0x72, 0x6d,
+	0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x32, 0xbf, 0x01, 0x0a, 0x16, 0x41, 0x6c, 0x61, 0x72, 0x6d,
 	0x4c, 0x69, 0x66, 0x65, 0x63, 0x79, 0x63, 0x6c, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65,
-	0x72, 0x12, 0x34, 0x0a, 0x13, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x41, 0x6c, 0x61, 0x72, 0x6d,
+	0x72, 0x12, 0x36, 0x0a, 0x13, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x41, 0x6c, 0x61, 0x72, 0x6d,
 	0x53, 0x6e, 0x61, 0x70, 0x73, 0x68, 0x6f, 0x74, 0x12, 0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45,
 	0x6d, 0x70, 0x74, 0x79, 0x1a, 0x0f, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x41, 0x6c, 0x61, 0x72, 0x6d,
-	0x73, 0x4c, 0x69, 0x73, 0x74, 0x22, 0x00, 0x12, 0x35, 0x0a, 0x17, 0x48, 0x61, 0x6e, 0x64, 0x6c,
-	0x65, 0x4e, 0x65, 0x77, 0x4f, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41, 0x6c, 0x61,
-	0x72, 0x6d, 0x12, 0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x0a,
-	0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x41, 0x6c, 0x61, 0x72, 0x6d, 0x22, 0x00, 0x30, 0x01, 0x12, 0x36,
-	0x0a, 0x12, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x41,
+	0x73, 0x4c, 0x69, 0x73, 0x74, 0x22, 0x00, 0x30, 0x01, 0x12, 0x35, 0x0a, 0x17, 0x48, 0x61, 0x6e,
+	0x64, 0x6c, 0x65, 0x4e, 0x65, 0x77, 0x4f, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x41,
 	0x6c, 0x61, 0x72, 0x6d, 0x12, 0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
-	0x1a, 0x10, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x6c, 0x61,
-	0x72, 0x6d, 0x22, 0x00, 0x30, 0x01, 0x42, 0x2d, 0x0a, 0x24, 0x6f, 0x72, 0x67, 0x2e, 0x6f, 0x70,
-	0x65, 0x6e, 0x6e, 0x6d, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x5a, 0x05,
-	0x2e, 0x3b, 0x6f, 0x69, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x1a, 0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x41, 0x6c, 0x61, 0x72, 0x6d, 0x22, 0x00, 0x30, 0x01,
+	0x12, 0x36, 0x0a, 0x12, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x64, 0x41, 0x6c, 0x61, 0x72, 0x6d, 0x12, 0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45, 0x6d, 0x70,
+	0x74, 0x79, 0x1a, 0x10, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41,
+	0x6c, 0x61, 0x72, 0x6d, 0x22, 0x00, 0x30, 0x01, 0x42, 0x2d, 0x0a, 0x24, 0x6f, 0x72, 0x67, 0x2e,
+	0x6f, 0x70, 0x65, 0x6e, 0x6e, 0x6d, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x5a, 0x05, 0x2e, 0x3b, 0x6f, 0x69, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -260,7 +260,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type AlarmLifecycleListenerClient interface {
 	// Periodically invoked with the complete list of alarms as stored in the database.
-	HandleAlarmSnapshot(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AlarmsList, error)
+	HandleAlarmSnapshot(ctx context.Context, in *Empty, opts ...grpc.CallOption) (AlarmLifecycleListener_HandleAlarmSnapshotClient, error)
 	// Invoked when an alarm is created or updated.
 	// Defined as server stream, so the client can get the new or updated alarm immediately.
 	HandleNewOrUpdatedAlarm(ctx context.Context, in *Empty, opts ...grpc.CallOption) (AlarmLifecycleListener_HandleNewOrUpdatedAlarmClient, error)
@@ -277,17 +277,40 @@ func NewAlarmLifecycleListenerClient(cc grpc.ClientConnInterface) AlarmLifecycle
 	return &alarmLifecycleListenerClient{cc}
 }
 
-func (c *alarmLifecycleListenerClient) HandleAlarmSnapshot(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AlarmsList, error) {
-	out := new(AlarmsList)
-	err := c.cc.Invoke(ctx, "/oia.AlarmLifecycleListener/HandleAlarmSnapshot", in, out, opts...)
+func (c *alarmLifecycleListenerClient) HandleAlarmSnapshot(ctx context.Context, in *Empty, opts ...grpc.CallOption) (AlarmLifecycleListener_HandleAlarmSnapshotClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_AlarmLifecycleListener_serviceDesc.Streams[0], "/oia.AlarmLifecycleListener/HandleAlarmSnapshot", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &alarmLifecycleListenerHandleAlarmSnapshotClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AlarmLifecycleListener_HandleAlarmSnapshotClient interface {
+	Recv() (*AlarmsList, error)
+	grpc.ClientStream
+}
+
+type alarmLifecycleListenerHandleAlarmSnapshotClient struct {
+	grpc.ClientStream
+}
+
+func (x *alarmLifecycleListenerHandleAlarmSnapshotClient) Recv() (*AlarmsList, error) {
+	m := new(AlarmsList)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *alarmLifecycleListenerClient) HandleNewOrUpdatedAlarm(ctx context.Context, in *Empty, opts ...grpc.CallOption) (AlarmLifecycleListener_HandleNewOrUpdatedAlarmClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_AlarmLifecycleListener_serviceDesc.Streams[0], "/oia.AlarmLifecycleListener/HandleNewOrUpdatedAlarm", opts...)
+	stream, err := c.cc.NewStream(ctx, &_AlarmLifecycleListener_serviceDesc.Streams[1], "/oia.AlarmLifecycleListener/HandleNewOrUpdatedAlarm", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -319,7 +342,7 @@ func (x *alarmLifecycleListenerHandleNewOrUpdatedAlarmClient) Recv() (*Alarm, er
 }
 
 func (c *alarmLifecycleListenerClient) HandleDeletedAlarm(ctx context.Context, in *Empty, opts ...grpc.CallOption) (AlarmLifecycleListener_HandleDeletedAlarmClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_AlarmLifecycleListener_serviceDesc.Streams[1], "/oia.AlarmLifecycleListener/HandleDeletedAlarm", opts...)
+	stream, err := c.cc.NewStream(ctx, &_AlarmLifecycleListener_serviceDesc.Streams[2], "/oia.AlarmLifecycleListener/HandleDeletedAlarm", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -353,7 +376,7 @@ func (x *alarmLifecycleListenerHandleDeletedAlarmClient) Recv() (*DeleteAlarm, e
 // AlarmLifecycleListenerServer is the server API for AlarmLifecycleListener service.
 type AlarmLifecycleListenerServer interface {
 	// Periodically invoked with the complete list of alarms as stored in the database.
-	HandleAlarmSnapshot(context.Context, *Empty) (*AlarmsList, error)
+	HandleAlarmSnapshot(*Empty, AlarmLifecycleListener_HandleAlarmSnapshotServer) error
 	// Invoked when an alarm is created or updated.
 	// Defined as server stream, so the client can get the new or updated alarm immediately.
 	HandleNewOrUpdatedAlarm(*Empty, AlarmLifecycleListener_HandleNewOrUpdatedAlarmServer) error
@@ -366,8 +389,8 @@ type AlarmLifecycleListenerServer interface {
 type UnimplementedAlarmLifecycleListenerServer struct {
 }
 
-func (*UnimplementedAlarmLifecycleListenerServer) HandleAlarmSnapshot(context.Context, *Empty) (*AlarmsList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HandleAlarmSnapshot not implemented")
+func (*UnimplementedAlarmLifecycleListenerServer) HandleAlarmSnapshot(*Empty, AlarmLifecycleListener_HandleAlarmSnapshotServer) error {
+	return status.Errorf(codes.Unimplemented, "method HandleAlarmSnapshot not implemented")
 }
 func (*UnimplementedAlarmLifecycleListenerServer) HandleNewOrUpdatedAlarm(*Empty, AlarmLifecycleListener_HandleNewOrUpdatedAlarmServer) error {
 	return status.Errorf(codes.Unimplemented, "method HandleNewOrUpdatedAlarm not implemented")
@@ -380,22 +403,25 @@ func RegisterAlarmLifecycleListenerServer(s *grpc.Server, srv AlarmLifecycleList
 	s.RegisterService(&_AlarmLifecycleListener_serviceDesc, srv)
 }
 
-func _AlarmLifecycleListener_HandleAlarmSnapshot_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
-	if err := dec(in); err != nil {
-		return nil, err
+func _AlarmLifecycleListener_HandleAlarmSnapshot_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(AlarmLifecycleListenerServer).HandleAlarmSnapshot(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/oia.AlarmLifecycleListener/HandleAlarmSnapshot",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AlarmLifecycleListenerServer).HandleAlarmSnapshot(ctx, req.(*Empty))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(AlarmLifecycleListenerServer).HandleAlarmSnapshot(m, &alarmLifecycleListenerHandleAlarmSnapshotServer{stream})
+}
+
+type AlarmLifecycleListener_HandleAlarmSnapshotServer interface {
+	Send(*AlarmsList) error
+	grpc.ServerStream
+}
+
+type alarmLifecycleListenerHandleAlarmSnapshotServer struct {
+	grpc.ServerStream
+}
+
+func (x *alarmLifecycleListenerHandleAlarmSnapshotServer) Send(m *AlarmsList) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _AlarmLifecycleListener_HandleNewOrUpdatedAlarm_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -443,13 +469,13 @@ func (x *alarmLifecycleListenerHandleDeletedAlarmServer) Send(m *DeleteAlarm) er
 var _AlarmLifecycleListener_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "oia.AlarmLifecycleListener",
 	HandlerType: (*AlarmLifecycleListenerServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "HandleAlarmSnapshot",
-			Handler:    _AlarmLifecycleListener_HandleAlarmSnapshot_Handler,
-		},
-	},
+	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "HandleAlarmSnapshot",
+			Handler:       _AlarmLifecycleListener_HandleAlarmSnapshot_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "HandleNewOrUpdatedAlarm",
 			Handler:       _AlarmLifecycleListener_HandleNewOrUpdatedAlarm_Handler,

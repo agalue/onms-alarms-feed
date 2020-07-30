@@ -19,7 +19,7 @@ message DeleteAlarm {
 service AlarmLifecycleListener {
 
     // Periodically invoked with the complete list of alarms as stored in the database.
-    rpc HandleAlarmSnapshot (Empty) returns (AlarmsList) {}
+    rpc HandleAlarmSnapshot (Empty) returns (stream AlarmsList) {}
 
     // Invoked when an alarm is created or updated.
     // Defined as server stream, so the client can get the new or updated alarm immediately.

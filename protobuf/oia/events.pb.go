@@ -76,6 +76,53 @@ func (x *Ack) GetSucceeded() bool {
 	return false
 }
 
+type EventListenerId struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (x *EventListenerId) Reset() {
+	*x = EventListenerId{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_events_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EventListenerId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EventListenerId) ProtoMessage() {}
+
+func (x *EventListenerId) ProtoReflect() protoreflect.Message {
+	mi := &file_events_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EventListenerId.ProtoReflect.Descriptor instead.
+func (*EventListenerId) Descriptor() ([]byte, []int) {
+	return file_events_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *EventListenerId) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_events_proto protoreflect.FileDescriptor
 
 var file_events_proto_rawDesc = []byte{
@@ -83,17 +130,24 @@ var file_events_proto_rawDesc = []byte{
 	0x6f, 0x69, 0x61, 0x1a, 0x0b, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x22, 0x23, 0x0a, 0x03, 0x41, 0x63, 0x6b, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x75, 0x63, 0x63, 0x65,
 	0x65, 0x64, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x73, 0x75, 0x63, 0x63,
-	0x65, 0x65, 0x64, 0x65, 0x64, 0x32, 0x6b, 0x0a, 0x0e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x46, 0x6f,
-	0x72, 0x77, 0x61, 0x72, 0x64, 0x65, 0x72, 0x12, 0x2d, 0x0a, 0x09, 0x73, 0x65, 0x6e, 0x64, 0x41,
-	0x73, 0x79, 0x6e, 0x63, 0x12, 0x12, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x49, 0x6e, 0x4d, 0x65, 0x6d,
-	0x6f, 0x72, 0x79, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x1a, 0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45,
-	0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x12, 0x2a, 0x0a, 0x08, 0x73, 0x65, 0x6e, 0x64, 0x53, 0x79,
-	0x6e, 0x63, 0x12, 0x12, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x49, 0x6e, 0x4d, 0x65, 0x6d, 0x6f, 0x72,
-	0x79, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x1a, 0x08, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x41, 0x63, 0x6b,
-	0x22, 0x00, 0x42, 0x2d, 0x0a, 0x24, 0x6f, 0x72, 0x67, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x6e, 0x6d,
-	0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x76, 0x31, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x5a, 0x05, 0x2e, 0x3b, 0x6f, 0x69,
-	0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x65, 0x64, 0x65, 0x64, 0x22, 0x25, 0x0a, 0x0f, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x4c, 0x69,
+	0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x32, 0x6b, 0x0a, 0x0e,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x46, 0x6f, 0x72, 0x77, 0x61, 0x72, 0x64, 0x65, 0x72, 0x12, 0x2d,
+	0x0a, 0x09, 0x53, 0x65, 0x6e, 0x64, 0x41, 0x73, 0x79, 0x6e, 0x63, 0x12, 0x12, 0x2e, 0x6f, 0x69,
+	0x61, 0x2e, 0x49, 0x6e, 0x4d, 0x65, 0x6d, 0x6f, 0x72, 0x79, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x1a,
+	0x0a, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x00, 0x12, 0x2a, 0x0a,
+	0x08, 0x53, 0x65, 0x6e, 0x64, 0x53, 0x79, 0x6e, 0x63, 0x12, 0x12, 0x2e, 0x6f, 0x69, 0x61, 0x2e,
+	0x49, 0x6e, 0x4d, 0x65, 0x6d, 0x6f, 0x72, 0x79, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x1a, 0x08, 0x2e,
+	0x6f, 0x69, 0x61, 0x2e, 0x41, 0x63, 0x6b, 0x22, 0x00, 0x32, 0x48, 0x0a, 0x0d, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x12, 0x37, 0x0a, 0x07, 0x4f, 0x6e,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x14, 0x2e, 0x6f, 0x69, 0x61, 0x2e, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x4c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x65, 0x72, 0x49, 0x64, 0x1a, 0x12, 0x2e, 0x6f, 0x69,
+	0x61, 0x2e, 0x49, 0x6e, 0x4d, 0x65, 0x6d, 0x6f, 0x72, 0x79, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x22,
+	0x00, 0x30, 0x01, 0x42, 0x2d, 0x0a, 0x24, 0x6f, 0x72, 0x67, 0x2e, 0x6f, 0x70, 0x65, 0x6e, 0x6e,
+	0x6d, 0x73, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x76, 0x31, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x5a, 0x05, 0x2e, 0x3b, 0x6f,
+	0x69, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -108,19 +162,22 @@ func file_events_proto_rawDescGZIP() []byte {
 	return file_events_proto_rawDescData
 }
 
-var file_events_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_events_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_events_proto_goTypes = []interface{}{
-	(*Ack)(nil),           // 0: oia.Ack
-	(*InMemoryEvent)(nil), // 1: oia.InMemoryEvent
-	(*Empty)(nil),         // 2: oia.Empty
+	(*Ack)(nil),             // 0: oia.Ack
+	(*EventListenerId)(nil), // 1: oia.EventListenerId
+	(*InMemoryEvent)(nil),   // 2: oia.InMemoryEvent
+	(*Empty)(nil),           // 3: oia.Empty
 }
 var file_events_proto_depIdxs = []int32{
-	1, // 0: oia.EventForwarder.sendAsync:input_type -> oia.InMemoryEvent
-	1, // 1: oia.EventForwarder.sendSync:input_type -> oia.InMemoryEvent
-	2, // 2: oia.EventForwarder.sendAsync:output_type -> oia.Empty
-	0, // 3: oia.EventForwarder.sendSync:output_type -> oia.Ack
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 0: oia.EventForwarder.SendAsync:input_type -> oia.InMemoryEvent
+	2, // 1: oia.EventForwarder.SendSync:input_type -> oia.InMemoryEvent
+	1, // 2: oia.EventListener.OnEvent:input_type -> oia.EventListenerId
+	3, // 3: oia.EventForwarder.SendAsync:output_type -> oia.Empty
+	0, // 4: oia.EventForwarder.SendSync:output_type -> oia.Ack
+	2, // 5: oia.EventListener.OnEvent:output_type -> oia.InMemoryEvent
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -145,6 +202,18 @@ func file_events_proto_init() {
 				return nil
 			}
 		}
+		file_events_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EventListenerId); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -152,9 +221,9 @@ func file_events_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_events_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_events_proto_goTypes,
 		DependencyIndexes: file_events_proto_depIdxs,
@@ -194,7 +263,7 @@ func NewEventForwarderClient(cc grpc.ClientConnInterface) EventForwarderClient {
 
 func (c *eventForwarderClient) SendAsync(ctx context.Context, in *InMemoryEvent, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/oia.EventForwarder/sendAsync", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/oia.EventForwarder/SendAsync", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -203,7 +272,7 @@ func (c *eventForwarderClient) SendAsync(ctx context.Context, in *InMemoryEvent,
 
 func (c *eventForwarderClient) SendSync(ctx context.Context, in *InMemoryEvent, opts ...grpc.CallOption) (*Ack, error) {
 	out := new(Ack)
-	err := c.cc.Invoke(ctx, "/oia.EventForwarder/sendSync", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/oia.EventForwarder/SendSync", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -274,14 +343,115 @@ var _EventForwarder_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*EventForwarderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "sendAsync",
+			MethodName: "SendAsync",
 			Handler:    _EventForwarder_SendAsync_Handler,
 		},
 		{
-			MethodName: "sendSync",
+			MethodName: "SendSync",
 			Handler:    _EventForwarder_SendSync_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
+	Metadata: "events.proto",
+}
+
+// EventListenerClient is the client API for EventListener service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type EventListenerClient interface {
+	// Listen to all the events from OpenNMS.
+	OnEvent(ctx context.Context, in *EventListenerId, opts ...grpc.CallOption) (EventListener_OnEventClient, error)
+}
+
+type eventListenerClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewEventListenerClient(cc grpc.ClientConnInterface) EventListenerClient {
+	return &eventListenerClient{cc}
+}
+
+func (c *eventListenerClient) OnEvent(ctx context.Context, in *EventListenerId, opts ...grpc.CallOption) (EventListener_OnEventClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_EventListener_serviceDesc.Streams[0], "/oia.EventListener/OnEvent", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &eventListenerOnEventClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type EventListener_OnEventClient interface {
+	Recv() (*InMemoryEvent, error)
+	grpc.ClientStream
+}
+
+type eventListenerOnEventClient struct {
+	grpc.ClientStream
+}
+
+func (x *eventListenerOnEventClient) Recv() (*InMemoryEvent, error) {
+	m := new(InMemoryEvent)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// EventListenerServer is the server API for EventListener service.
+type EventListenerServer interface {
+	// Listen to all the events from OpenNMS.
+	OnEvent(*EventListenerId, EventListener_OnEventServer) error
+}
+
+// UnimplementedEventListenerServer can be embedded to have forward compatible implementations.
+type UnimplementedEventListenerServer struct {
+}
+
+func (*UnimplementedEventListenerServer) OnEvent(*EventListenerId, EventListener_OnEventServer) error {
+	return status.Errorf(codes.Unimplemented, "method OnEvent not implemented")
+}
+
+func RegisterEventListenerServer(s *grpc.Server, srv EventListenerServer) {
+	s.RegisterService(&_EventListener_serviceDesc, srv)
+}
+
+func _EventListener_OnEvent_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(EventListenerId)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(EventListenerServer).OnEvent(m, &eventListenerOnEventServer{stream})
+}
+
+type EventListener_OnEventServer interface {
+	Send(*InMemoryEvent) error
+	grpc.ServerStream
+}
+
+type eventListenerOnEventServer struct {
+	grpc.ServerStream
+}
+
+func (x *eventListenerOnEventServer) Send(m *InMemoryEvent) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _EventListener_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "oia.EventListener",
+	HandlerType: (*EventListenerServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "OnEvent",
+			Handler:       _EventListener_OnEvent_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "events.proto",
 }

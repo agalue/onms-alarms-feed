@@ -28,20 +28,24 @@ const severityColors = [
 ];
 
 function App() {
+  const [loaded, setLoaded] = React.useState(false);
   const [alarms, setAlarms] = React.useState([]);
   const [showAlarmDetail, setShowAlarmDetail] = React.useState(false)
   const [selectedAlarm, setSelectedAlarm] = React.useState({})
 
   const loadAlarms = React.useCallback(() => {
-    alarmsClient.handleAlarmSnapshot(new Empty(), {}, (err, proto) => {
-      if (err) {
-        console.log(`handleAlarmSnapshot: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
-      } else {
+    const alarmSnapshot = alarmsClient.handleAlarmSnapshot(new Empty(), {});
+    alarmSnapshot.on('error', err => {
+      console.log(`handleAlarmSnapshot: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
+    });
+    alarmSnapshot.on('data', proto => {
+      if (!loaded) {
         const alarms = proto.getAlarmsList()
           .map(a => a.toObject())
           .sort((a, b) => a.lastEventTime - b.lastEventTime);
         console.log(`Loaded ${alarms.length} alarms.`);
         setAlarms(alarms);
+        setLoaded(true);
       }
     });
   }, []);
@@ -51,8 +55,9 @@ function App() {
     newOrUpdateStream.on('error', err => {
       console.log(`handleNewOrUpdatedAlarm: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
     });
-    newOrUpdateStream.on('data', protoAlarm => {
-      const alarm = protoAlarm.toObject();
+    newOrUpdateStream.on('data', proto => {
+      if (!loaded) { return; }
+      const alarm = proto.toObject();
       setAlarms(prevAlarms => {
         const idx = prevAlarms.findIndex(a => a.id === alarm.id)
         if (idx < 0) {
@@ -72,29 +77,30 @@ function App() {
     deletedStream.on('error', err => {
       console.log(`handleDeletedAlarm: Unexpected stream error: code = ${err.code}, message = ${err.message}`);
     });
-    deletedStream.on('data', protoAlarm => {
-      const alarm = protoAlarm.toObject();
+    deletedStream.on('data', proto => {
+      if (!loaded) { return; }
+      const alarm = proto.toObject();
       console.log(`Deleting alarm ${alarm.reductionKey} with ID ${alarm.id}`);
       setAlarms(prevAlarms => prevAlarms.filter(a => a.id !== alarm.id));
     });
   }, []);
 
-  const handleOpenAlarmModal = alarm => {
+  const handleOpenAlarmModal = React.useCallback(alarm => {
     setSelectedAlarm(alarm);
     setShowAlarmDetail(true);
-  };
+  }, []);
 
-  const handleCloseAlarmModal = () => {
+  const handleCloseAlarmModal = React.useCallback(() => {
     setShowAlarmDetail(false);
-  };
+  }, []);
 
-  const handleSendEvent = () => {
+  const handleSendEvent = React.useCallback(() => {
     const e = new InMemoryEvent();
     e.setUei("uei.opennms.org/grpc/reactTest");
     e.setSource("ReactJS");
     e.setSeverity(7);
     eventsClient.sendAsync(e);
-  }
+  }, []);
 
   React.useEffect(() => {
     console.log('Initialize handlers.');

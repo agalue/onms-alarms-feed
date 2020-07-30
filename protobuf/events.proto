@@ -12,12 +12,22 @@ message Ack {
     bool succeeded = 1;
 }
 
+message EventListenerId {
+    string name = 1;
+}
+
 service EventForwarder {
 
     // Send the given event asynchronously.
-    rpc sendAsync(InMemoryEvent) returns (Empty) {}
+    rpc SendAsync(InMemoryEvent) returns (Empty) {}
 
     // Send the given event synchronously with ack when it is successful.
-    rpc sendSync(InMemoryEvent) returns (Ack) {}
+    rpc SendSync(InMemoryEvent) returns (Ack) {}
 
+}
+
+service EventListener {
+
+    // Listen to all the events from OpenNMS.
+    rpc OnEvent (EventListenerId) returns (stream InMemoryEvent) {}
 }
