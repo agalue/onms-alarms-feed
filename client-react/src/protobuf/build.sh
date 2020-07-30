@@ -10,6 +10,10 @@ protoc -I ../../../protobuf/ ../../../protobuf/alarms.proto \
   --js_out=import_style=commonjs,binary:./oia \
   --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./oia
 
+protoc -I ../../../protobuf/ ../../../protobuf/events.proto \
+  --js_out=import_style=commonjs,binary:./oia \
+  --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./oia
+
 for f in ./oia/*.js
 do
     echo '/* eslint-disable */' | cat - "${f}" > temp && mv temp "${f}"

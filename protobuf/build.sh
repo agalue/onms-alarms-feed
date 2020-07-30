@@ -5,3 +5,4 @@ type protoc-gen-go >/dev/null 2>&1 || { echo >&2 "protoc-gen-go required but it'
 
 protoc -I . ./model.proto --go_out=./oia
 protoc -I . ./alarms.proto --go_out=plugins=grpc:./oia
+protoc -I . ./events.proto --go_out=plugins=grpc:./oia
