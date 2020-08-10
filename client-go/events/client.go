@@ -55,7 +55,8 @@ func main() {
 	bootstrap := flag.String("bootstrap", "127.0.0.1:8991", "gRPC server connection string")
 	flag.Parse()
 
-	conn, err := grpc.Dial(*bootstrap, grpc.WithInsecure())
+	log.Infof("Connecting to %s", *bootstrap)
+	conn, err := grpc.Dial(*bootstrap, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error while connecting: %v", err)
 	}
