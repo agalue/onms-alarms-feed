@@ -23,6 +23,10 @@ var handler oia.EventListener_OnEventClient
 func startEventListener() error {
 	var err error
 
+	if handler != nil {
+		handler.CloseSend()
+	}
+
 	handler, err = client.OnEvent(context.Background(), &oia.EventListenerId{Name: "go-client"})
 	if err != nil {
 		return err
