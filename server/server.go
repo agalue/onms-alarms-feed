@@ -3,12 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"math/rand"
 	"net"
+	"os"
+	"os/signal"
 	"time"
 
 	"github.com/agalue/onms-alarms-feed/protobuf/oia"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
@@ -21,7 +23,9 @@ var (
 ////// gRPC Server //////
 
 // Server represents the OIA gRPC Implementation for the AlarmLifecycleListener
-type Server struct{}
+type Server struct {
+	Log *zap.SugaredLogger
+}
 
 // HandleAlarmSnapshot periodically send the state of the alarms in the database.
 func (srv *Server) HandleAlarmSnapshot(empty *oia.Empty, stream oia.AlarmLifecycleListener_HandleAlarmSnapshotServer) error {
@@ -69,7 +73,7 @@ func (srv *Server) HandleNewOrUpdatedAlarm(empty *oia.Empty, stream oia.AlarmLif
 func (srv *Server) HandleDeletedAlarm(empty *oia.Empty, stream oia.AlarmLifecycleListener_HandleDeletedAlarmServer) error {
 	for {
 		time.Sleep(60 * time.Second)
-		log.Printf("Running cleanup")
+		srv.Log.Infof("Running cleanup")
 		tmp := mockAlarms[:0]
 		for _, alarm := range mockAlarms {
 			if alarm.Severity.Number() <= oia.Severity_NORMAL.Number() {
@@ -78,9 +82,9 @@ func (srv *Server) HandleDeletedAlarm(empty *oia.Empty, stream oia.AlarmLifecycl
 					ReductionKey: alarm.ReductionKey,
 				}
 				if err := stream.Send(deletedAlarm); err == nil {
-					log.Printf("Delete alarm %s with ID %d", alarm.ReductionKey, alarm.Id)
+					srv.Log.Infof("Delete alarm %s with ID %d", alarm.ReductionKey, alarm.Id)
 				} else {
-					log.Printf("Error while sending deleted alarm: %v", err)
+					srv.Log.Errorf("Cannot send deleted alarm: %v", err)
 				}
 			} else {
 				tmp = append(tmp, alarm)
@@ -92,9 +96,9 @@ func (srv *Server) HandleDeletedAlarm(empty *oia.Empty, stream oia.AlarmLifecycl
 
 func (srv *Server) send(alarm *oia.Alarm, stream oia.AlarmLifecycleListener_HandleNewOrUpdatedAlarmServer) {
 	if err := stream.Send(alarm); err == nil {
-		log.Printf("Send alarm %s with ID %d and severity %s", alarm.ReductionKey, alarm.Id, alarm.Severity.String())
+		srv.Log.Infof("Send alarm %s with ID %d and severity %s", alarm.ReductionKey, alarm.Id, alarm.Severity.String())
 	} else {
-		log.Printf("Error while sending alarm: %v", err)
+		srv.Log.Errorf("Cannot send alarm: %v", err)
 	}
 }
 
@@ -162,12 +166,16 @@ func getMockNode() *oia.Node {
 ////// Main Method //////
 
 func main() {
+	logger, _ := zap.NewDevelopment()
+	log := logger.Sugar()
+
 	port := flag.Int("port", 8080, "gRPC server port")
 	flag.Parse()
 
 	rand.Seed(time.Now().Unix())
 	initMockNodes("Servers", uint64(10))
 
+	log.Infof("Starting server at port %d", *port)
 	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", *port))
 
 	if err != nil {
@@ -175,9 +183,17 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	oia.RegisterAlarmLifecycleListenerServer(s, &Server{})
+	oia.RegisterAlarmLifecycleListenerServer(s, &Server{Log: log})
 
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("Error while serving : %v", err)
-	}
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("Error while serving : %v", err)
+		}
+	}()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+	<-stop
+	log.Warnf("Terminating")
+	s.Stop()
 }
