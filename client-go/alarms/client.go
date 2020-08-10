@@ -107,7 +107,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error while connecting: %v", err)
 	}
-	defer conn.Close()
 
 	client = oia.NewAlarmLifecycleListenerClient(conn)
 
@@ -155,4 +154,5 @@ func main() {
 	if deletedStream != nil {
 		deletedStream.CloseSend()
 	}
+	conn.Close()
 }
